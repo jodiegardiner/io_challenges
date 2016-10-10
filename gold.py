@@ -24,16 +24,24 @@ def ask_questions(questions, get_answer=raw_input):
     score = 0
     total = len(questions)
     for question, answer in questions:
-        guess = raw_input(question)
+        print question
+        guess = solver(answer)
         if guess == answer:
             score += 1
     return score, total
 
 
+def solver(answer):
+    print answer
+    return answer
+
+
+
 def game_menu():
     menu = 'Enter 1 to PLAY\n' + \
            'Enter 2 to ADD a question\n' + \
-           'Enter 3 to exit\n'
+           'Enter 3 to exit\n' + \
+           'Enter 4 to auto-SOLVE\n'
     return raw_input(menu)
 
 
@@ -51,6 +59,14 @@ def game_loop():
         add_a_question()
     elif option == '3':
         return
+    elif option == '4':
+        try:
+            questions = read_questions()
+        except:
+            print "The questions file 'questions.txt' is missing"
+            return
+        result = ask_questions(questions, solver)
+        display_result(result)
     else:
         print "That's not a valid option!"
     game_loop()
